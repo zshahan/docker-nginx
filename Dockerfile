@@ -19,7 +19,6 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 		--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
 		--http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp \
 		--http-scgi-temp-path=/var/cache/nginx/scgi_temp \
-		--user=1001 \
 		--with-http_ssl_module \
 		--with-http_realip_module \
 		--with-http_addition_module \
@@ -125,9 +124,9 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& apk del .build-deps \
 	&& apk del .gettext \
 	&& mkdir /var/cache/nginx \
-	&& chown -R 1001 /var/cache/nginx \
+	&& chmod -R a+rwx /var/cache/nginx \
 	&& mkdir -p /var/run/nginx \
-	&& chown -R 1001 /var/run/nginx \
+	&& chmod -R a+rwx /var/run/nginx \
 	&& mv /tmp/envsubst /usr/local/bin/ \
 	\
 	# forward request and error logs to docker log collector
