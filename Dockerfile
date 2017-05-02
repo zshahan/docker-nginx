@@ -12,15 +12,14 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 		--conf-path=/etc/nginx/nginx.conf \
 		--error-log-path=/var/log/nginx/error.log \
 		--http-log-path=/var/log/nginx/access.log \
-		--pid-path=/var/run/nginx.pid \
-		--lock-path=/var/run/nginx.lock \
+		--pid-path=/var/run/nginx/nginx.pid \
+		--lock-path=/var/run/nginx/nginx.lock \
 		--http-client-body-temp-path=/var/cache/nginx/client_temp \
 		--http-proxy-temp-path=/var/cache/nginx/proxy_temp \
 		--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
 		--http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp \
 		--http-scgi-temp-path=/var/cache/nginx/scgi_temp \
 		--user=1001 \
-		--group=1001 \
 		--with-http_ssl_module \
 		--with-http_realip_module \
 		--with-http_addition_module \
@@ -125,6 +124,10 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& apk add --no-cache --virtual .nginx-rundeps $runDeps \
 	&& apk del .build-deps \
 	&& apk del .gettext \
+	&& mkdir /var/cache/nginx \
+	&& chown -R 1001 /var/cache/nginx \
+	&& mkdir -p /var/run/nginx \
+	&& chown -R 1001 /var/run/nginx \
 	&& mv /tmp/envsubst /usr/local/bin/ \
 	\
 	# forward request and error logs to docker log collector
