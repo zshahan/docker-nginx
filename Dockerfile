@@ -87,7 +87,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& tar -zxC /usr/src -f nginx-upstream-dynamic-servers.tar.gz \
 	&& mv /usr/src/nginx-upstream-dynamic-servers-master /usr/src/nginx-upstream-dynamic-servers \
 	&& rm nginx-upstream-dynamic-servers.tar.gz \
-	&& curl -fSL https://github.com/sbagmeijer/nginx_ajp_module/archive/master.tar.gz -o nginx_ajp_module.tar.gz \
+	&& curl -fSL https://github.com/vozlt/nginx_ajp_module/archive/master.tar.gz -o nginx_ajp_module.tar.gz \
 	&& tar -zxC /usr/src -f nginx_ajp_module.tar.gz \
 	&& mv /usr/src/nginx_ajp_module-master /usr/src/nginx_ajp_module \
 	&& rm nginx_ajp_module.tar.gz \
@@ -116,6 +116,8 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& strip /usr/sbin/nginx* \
 	&& strip /usr/lib/nginx/modules/*.so \
 	&& rm -rf /usr/src/nginx-$NGINX_VERSION \
+	&& rm -rf /usr/src/nginx-upstream-dynamic-servers \
+        && rm -rf /usr/src/nginx_ajp_module \
 	\
 	# Bring in gettext so we can get `envsubst`, then throw
 	# the rest away. To do this, we need to install `gettext`
