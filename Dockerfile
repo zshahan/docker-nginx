@@ -47,6 +47,9 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 		--with-compat \
 		--with-file-aio \
 		--with-http_v2_module \
+		--add-module=/usr/src/nginx-upstream-dynamic-servers \
+		--add-module=/usr/src/nginx_ajp_module \
+
 	" \
 	&& apk add --no-cache --virtual .build-deps \
 		gcc \
@@ -80,6 +83,14 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& mkdir -p /usr/src \
 	&& tar -zxC /usr/src -f nginx.tar.gz \
 	&& rm nginx.tar.gz \
+	&& curl -fSL https://github.com/GUI/nginx-upstream-dynamic-servers/archive/master.tar.gz -o nginx-upstream-dynamic-servers.tar.gz \
+	&& tar -zxC /usr/src -f nginx-upstream-dynamic-servers.tar.gz \
+	&& mv /usr/src/nginx-upstream-dynamic-servers-master /usr/src/nginx-upstream-dynamic-servers \
+	&& rm nginx-upstream-dynamic-servers.tar.gz \
+	&& curl -fSL https://github.com/sbagmeijer/nginx_ajp_module/archive/master.tar.gz -o nginx_ajp_module.tar.gz \
+	&& tar -zxC /usr/src -f nginx_ajp_module.tar.gz \
+	&& mv /usr/src/nginx_ajp_module-master /usr/src/nginx_ajp_module \
+	&& rm nginx_ajp_module.tar.gz \
 	&& cd /usr/src/nginx-$NGINX_VERSION \
 	&& ./configure $CONFIG --with-debug \
 	&& make -j$(getconf _NPROCESSORS_ONLN) \
